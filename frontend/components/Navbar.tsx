@@ -11,14 +11,16 @@ import {
   Gift,
   Zap,
   Globe,
-  AlertTriangle
+  AlertTriangle,
+  UserCheck
 } from 'lucide-react';
 import { UserAccount, LightBgTheme, SupportedLocale, CurrencyAnchor } from '../types';
 import { LOCALE_LABELS, TRANSLATIONS } from '../services/localeService';
+import { isRootAdminEmail } from '../config/whitelist';
 
 interface NavbarProps {
-  activeTab: 'home' | 'blindspots' | 'social_matrix' | 'pricing' | 'viral_suite' | 'calculator' | 'consultant' | 'admin';
-  setActiveTab: (tab: 'home' | 'blindspots' | 'social_matrix' | 'pricing' | 'viral_suite' | 'calculator' | 'consultant' | 'admin') => void;
+  activeTab: 'home' | 'blindspots' | 'social_matrix' | 'pricing' | 'viral_suite' | 'calculator' | 'consultant' | 'admin' | 'admin_users';
+  setActiveTab: (tab: 'home' | 'blindspots' | 'social_matrix' | 'pricing' | 'viral_suite' | 'calculator' | 'consultant' | 'admin' | 'admin_users') => void;
   currentUser: UserAccount | null;
   onOpenAuthModal: () => void;
   onOpenThemeModal: () => void;
@@ -40,9 +42,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   currency,
   onChangeCurrency,
 }) => {
-  const isSuperAdmin = currentUser?.role === 'super_admin' && 
-    (currentUser.email === 'kclee1654@gmail.com' || currentUser.email.startsWith('kclee1654'));
-
+  const isSuperAdmin = currentUser?.role === 'ADMIN' && isRootAdminEmail(currentUser.email);
   const t = TRANSLATIONS[currentLocale] || TRANSLATIONS.zh_TW;
 
   return (
@@ -82,7 +82,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span>{t.nav_home}</span>
             </button>
 
-            {/* 4 大盲點審查與修復 (對應用戶截圖) */}
+            {/* 4 大盲點審查與修復 (對應截圖) */}
             <button
               onClick={() => setActiveTab('blindspots')}
               className={`flex items-center space-x-1 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold transition whitespace-nowrap ${
@@ -95,7 +95,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span>4大盲點修復</span>
             </button>
 
-            {/* 6 大社群自動推播矩陣 */}
+            {/* 6 大社群自動推播矩陣 (受到 AuthGuard 保護) */}
             <button
               onClick={() => setActiveTab('social_matrix')}
               className={`flex items-center space-x-1 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold transition whitespace-nowrap ${
@@ -156,19 +156,33 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span>{t.nav_consult}</span>
             </button>
 
-            {/* ONLY VISIBLE TO SUPER ADMIN */}
+            {/* 僅最高管理者 kclee1654 可見之專屬功能 */}
             {isSuperAdmin && (
-              <button
-                onClick={() => setActiveTab('admin')}
-                className={`flex items-center space-x-1 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold transition whitespace-nowrap ${
-                  activeTab === 'admin'
-                    ? 'bg-slate-900 text-amber-300 shadow-sm'
-                    : 'text-amber-700 hover:bg-amber-100/60'
-                }`}
-              >
-                <Crown className="w-4 h-4 text-amber-400" />
-                <span>{t.nav_battlehq}</span>
-              </button>
+              <>
+                <button
+                  onClick={() => setActiveTab('admin_users')}
+                  className={`flex items-center space-x-1 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold transition whitespace-nowrap ${
+                    activeTab === 'admin_users'
+                      ? 'bg-amber-600 text-white shadow-sm'
+                      : 'text-amber-800 hover:bg-amber-100/70'
+                  }`}
+                >
+                  <UserCheck className="w-4 h-4 text-amber-500" />
+                  <span>授權白名單</span>
+                </button>
+
+                <button
+                  onClick={() => setActiveTab('admin')}
+                  className={`flex items-center space-x-1 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold transition whitespace-nowrap ${
+                    activeTab === 'admin'
+                      ? 'bg-slate-900 text-amber-300 shadow-sm'
+                      : 'text-amber-700 hover:bg-amber-100/60'
+                  }`}
+                >
+                  <Crown className="w-4 h-4 text-amber-400" />
+                  <span>{t.nav_battlehq}</span>
+                </button>
+              </>
             )}
           </nav>
 
@@ -222,7 +236,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               {isSuperAdmin ? (
                 <>
                   <Crown className="w-3.5 h-3.5 text-amber-600" />
-                  <span className="hidden lg:inline">Root</span>
+                  <span className="hidden lg:inline">kclee1654</span>
                 </>
               ) : currentUser ? (
                 <>
