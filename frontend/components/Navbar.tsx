@@ -11,14 +11,14 @@ import {
   Gift,
   Zap,
   Globe,
-  Shield
+  AlertTriangle
 } from 'lucide-react';
 import { UserAccount, LightBgTheme, SupportedLocale, CurrencyAnchor } from '../types';
 import { LOCALE_LABELS, TRANSLATIONS } from '../services/localeService';
 
 interface NavbarProps {
-  activeTab: 'home' | 'social_matrix' | 'pricing' | 'viral_suite' | 'calculator' | 'consultant' | 'admin';
-  setActiveTab: (tab: 'home' | 'social_matrix' | 'pricing' | 'viral_suite' | 'calculator' | 'consultant' | 'admin') => void;
+  activeTab: 'home' | 'blindspots' | 'social_matrix' | 'pricing' | 'viral_suite' | 'calculator' | 'consultant' | 'admin';
+  setActiveTab: (tab: 'home' | 'blindspots' | 'social_matrix' | 'pricing' | 'viral_suite' | 'calculator' | 'consultant' | 'admin') => void;
   currentUser: UserAccount | null;
   onOpenAuthModal: () => void;
   onOpenThemeModal: () => void;
@@ -82,13 +82,26 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span>{t.nav_home}</span>
             </button>
 
-            {/* 新增：6 大社群自動推播矩陣 */}
+            {/* 4 大盲點審查與修復 (對應用戶截圖) */}
+            <button
+              onClick={() => setActiveTab('blindspots')}
+              className={`flex items-center space-x-1 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold transition whitespace-nowrap ${
+                activeTab === 'blindspots'
+                  ? 'bg-amber-500 text-slate-950 shadow-sm'
+                  : 'text-amber-800 hover:text-amber-950 bg-amber-50'
+              }`}
+            >
+              <AlertTriangle className="w-4 h-4 text-amber-600" />
+              <span>4大盲點修復</span>
+            </button>
+
+            {/* 6 大社群自動推播矩陣 */}
             <button
               onClick={() => setActiveTab('social_matrix')}
               className={`flex items-center space-x-1 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold transition whitespace-nowrap ${
                 activeTab === 'social_matrix'
                   ? 'bg-gradient-to-r from-amber-500 to-yellow-400 text-slate-950 shadow-sm'
-                  : 'text-amber-800 hover:text-amber-950'
+                  : 'text-slate-700 hover:text-slate-950'
               }`}
             >
               <Zap className="w-4 h-4 text-amber-600" />
@@ -159,7 +172,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             )}
           </nav>
 
-          {/* Right Action Tools: 7-Language Selector + Currency Peg + Theme + Account */}
+          {/* Right Action Tools */}
           <div className="flex items-center space-x-2 shrink-0">
             {/* 7-Language Select Dropdown */}
             <div className="relative inline-flex items-center">
