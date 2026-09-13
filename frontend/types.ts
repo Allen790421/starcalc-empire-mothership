@@ -12,11 +12,15 @@ export interface CurrencyRates {
   THB: number;
 }
 
+// 角色與審核狀態嚴格枚舉
+export type UserRole = 'ADMIN' | 'USER';
+
 export interface UserAccount {
   id: string;
   email: string;
-  role: 'super_admin' | 'free_vip' | 'standard';
-  isFullSiteFree: boolean;
+  role: UserRole;
+  isApproved: boolean; // 是否經管理者手動核可
+  isFullSiteFree: boolean; // 是否享全站免費 VIP 特權
   createdAt: string;
   notes?: string;
   referralCode?: string;
@@ -96,6 +100,35 @@ export interface BlindspotFixItem {
   techStack: string;
   status: 'fully_patched' | 'monitoring' | 'simulated';
   liveMetrics: string;
+}
+
+// 四大戰役擴散法策略物件型別 (Battle Campaign Strategy)
+export type BattleCampaignId = 'normandy' | 'midway' | 'iwo_jima' | 'pearl_harbor';
+
+export interface BattleCampaignItem {
+  id: BattleCampaignId;
+  name: string;
+  chineseTitle: string;
+  tacticCategory: string;
+  description: string;
+  defaultTargets: string[];
+  executionSpeed: string;
+  status: 'ready' | 'running' | 'completed';
+  executionCount: number;
+}
+
+// 全網站壓測與自動化檢測回報
+export interface StressTestReport {
+  timestamp: string;
+  virtualUsers: number;
+  totalRequests: number;
+  qps: number;
+  averageLatencyMs: number;
+  p99LatencyMs: number;
+  errorRate: number;
+  circuitBreakerStatus: 'CLOSED' | 'OPEN' | 'HALF_OPEN';
+  rateLimitingBlocked: number;
+  authGuardInterceptions: number;
 }
 
 export type LightBgTheme = 
