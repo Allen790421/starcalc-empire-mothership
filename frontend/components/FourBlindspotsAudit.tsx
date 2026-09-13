@@ -15,7 +15,8 @@ import {
   Cpu, 
   Sparkles,
   Layers,
-  ArrowRight
+  ArrowRight,
+  FileCheck
 } from 'lucide-react';
 import { BlindspotFixItem } from '../types';
 
@@ -112,7 +113,7 @@ export async function resilientGenerate(prompt: string): Promise<string> {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8 space-y-8">
-      {/* Top Banner Aligned with the User Screenshot */}
+      {/* 起手式檢測報告旗艦總結卡片 */}
       <div className="bg-white/95 border-2 border-amber-400 rounded-3xl p-6 sm:p-8 shadow-xl relative overflow-hidden backdrop-blur-md">
         <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 pb-4 border-b border-slate-200">
           <div className="flex items-center space-x-3">
@@ -122,18 +123,18 @@ export async function resilientGenerate(prompt: string): Promise<string> {
             <div>
               <div className="flex items-center space-x-2">
                 <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300">
-                  防線安全審查
+                  起手式檢測報告
                 </span>
                 <span className="text-xs font-bold text-emerald-700 flex items-center space-x-1">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                  <span>4 項盲區已 100% 部署補丁</span>
+                  <span>4 大盲點與安全漏洞已 100% 修補在線</span>
                 </span>
               </div>
               <h1 className="text-xl sm:text-2xl font-black text-slate-900 mt-1">
                 企劃書上線營運必修補之關鍵 4 大盲點 (盲區修復清單)
               </h1>
               <p className="text-xs text-slate-500 mt-0.5">
-                dawn-quant.xingdeng.tw • 經最高管理者（kclee1654@gmail.com）審查並實時在線防禦
+                目標站點：<strong className="text-slate-800">dawn-quant.xingdeng.tw</strong> • 最高權限管理者：<strong className="text-amber-800 font-mono">kclee1654@gmail.com</strong>
               </p>
             </div>
           </div>
@@ -165,7 +166,7 @@ export async function resilientGenerate(prompt: string): Promise<string> {
         )}
       </div>
 
-      {/* The Exact 4 Cards Matching the Screenshot in Clean Light/3D Card Style */}
+      {/* 4 大盲點實裝卡片 */}
       <div className="space-y-4">
         {blindspots.map((item) => (
           <div
@@ -212,7 +213,7 @@ export async function resilientGenerate(prompt: string): Promise<string> {
         ))}
       </div>
 
-      {/* Code Snippet for Circuit Breaker & Fallback Architecture */}
+      {/* 熔斷器實裝原始碼卡片 */}
       <div className="bg-slate-900 text-slate-100 rounded-3xl p-6 sm:p-7 space-y-3 shadow-xl border border-slate-800">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
