@@ -41,8 +41,8 @@ export interface PricingPlan {
   id: string;
   titleKey: string;
   badgeKey?: string;
-  priceUSD: number; // 錨定美金基準
-  priceTWD: number; // 國內錨定台幣基準
+  priceUSD: number;
+  priceTWD: number;
   periodKey: string;
   descKey: string;
   featuresKeys: string[];
@@ -86,12 +86,16 @@ export interface SocialPushPost {
   publishedCount: number;
 }
 
-export interface SecurityStatusAudit {
-  deviceFingerprintStatus: 'active_single_lock' | 'violation_detected';
-  antiFraudStatus: 'clean_secure';
-  antiMalwareStatus: 'scanned_safe';
-  autoUpdateStatus: 'latest_v2026_q3';
-  currentActiveDevice: string;
+// 企劃書上線營運必修補之關鍵 4 大盲點 (盲區修復狀態)
+export interface BlindspotFixItem {
+  id: string;
+  num: number;
+  title: string;
+  riskDescription: string;
+  remedyAction: string;
+  techStack: string;
+  status: 'fully_patched' | 'monitoring' | 'simulated';
+  liveMetrics: string;
 }
 
 export type LightBgTheme = 
