@@ -4,6 +4,7 @@ import { GeometricBackground } from './components/GeometricBackground';
 import { ThemeReliefControlModal } from './components/ThemeReliefControlModal';
 import { MainPortal } from './components/MainPortal';
 import { SocialPushMatrix } from './components/SocialPushMatrix';
+import { FourBlindspotsAudit } from './components/FourBlindspotsAudit';
 import { PricingPage } from './components/PricingPage';
 import { ViralGrowthSuite } from './components/ViralGrowthSuite';
 import { AdminPanel } from './components/AdminPanel';
@@ -22,8 +23,8 @@ import {
 } from './types';
 
 export const App: React.FC = () => {
-  // Navigation: Home / SocialMatrix / Pricing / ViralSuite / Calculator / Consultant / Admin (BattleHQ)
-  const [activeTab, setActiveTab] = useState<'home' | 'social_matrix' | 'pricing' | 'viral_suite' | 'calculator' | 'consultant' | 'admin'>('home');
+  // Navigation: Home / FourBlindspots / SocialMatrix / Pricing / ViralSuite / Calculator / Consultant / Admin (BattleHQ)
+  const [activeTab, setActiveTab] = useState<'home' | 'blindspots' | 'social_matrix' | 'pricing' | 'viral_suite' | 'calculator' | 'consultant' | 'admin'>('home');
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isThemeModalOpen, setIsThemeModalOpen] = useState(false);
 
@@ -101,7 +102,7 @@ export const App: React.FC = () => {
     },
   ]);
 
-  // Offline Wire Verification Queue (Pending Verification Orders)
+  // Offline Wire Verification Queue
   const [transferRecords, setTransferRecords] = useState<TransferVerificationRecord[]>([
     {
       id: 'tx-8801',
@@ -205,13 +206,13 @@ export const App: React.FC = () => {
 
   return (
     <div className="min-h-screen relative flex flex-col font-sans transition-colors duration-1000 text-slate-900">
-      {/* 固定顯現之 3D 不規則立體凸凹幾何圖形 (每 30s/60s 姿態切換，背景色由使用者調控) */}
+      {/* 固定顯現之 3D 不規則立體凸凹幾何圖形 */}
       <GeometricBackground 
         currentTheme={currentTheme} 
         intervalSec={intervalSec} 
       />
 
-      {/* 導覽列：含 7 國語言切換、幣別錨定 (TWD/USD) 與自動推播矩陣入口 */}
+      {/* 頂部導覽列 */}
       <Navbar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
@@ -235,7 +236,11 @@ export const App: React.FC = () => {
             onOpenCalculator={() => setActiveTab('calculator')}
             onOpenPricing={() => setActiveTab('pricing')}
             onOpenGrowthSuite={() => setActiveTab('viral_suite')}
+            onOpenBlindspots={() => setActiveTab('blindspots')}
           />
+        )}
+        {activeTab === 'blindspots' && (
+          <FourBlindspotsAudit />
         )}
         {activeTab === 'social_matrix' && (
           <SocialPushMatrix 
@@ -298,9 +303,9 @@ export const App: React.FC = () => {
         onLogout={() => setCurrentUser(null)}
       />
 
-      {/* Subdued Footer with Dynamic Anchor & Disclaimers */}
+      {/* Footer */}
       <footer className="border-t border-slate-200/80 bg-white/70 py-4 text-center text-xs text-slate-500 relative z-10 backdrop-blur-sm">
-        dawn-quant.xingdeng.tw • 乙元極流 Prime Flow • 國際錨定美金 (USD) / 國內錨定台幣 (TWD) • 支援 LINE/FB/IG/X/TRAE/TikTok 全自動多模態推播
+        dawn-quant.xingdeng.tw • 乙元極流 Prime Flow • 國際錨定美金 (USD) / 國內錨定台幣 (TWD) • 4 大盲點已全面修補並實裝
       </footer>
     </div>
   );
