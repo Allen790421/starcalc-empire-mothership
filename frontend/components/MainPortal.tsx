@@ -13,7 +13,8 @@ import {
   HelpCircle,
   Flame,
   Gift,
-  CreditCard
+  CreditCard,
+  AlertTriangle
 } from 'lucide-react';
 import { AnonymousIntentOrder } from '../types';
 
@@ -24,6 +25,7 @@ interface MainPortalProps {
   onOpenCalculator: () => void;
   onOpenPricing: () => void;
   onOpenGrowthSuite: () => void;
+  onOpenBlindspots: () => void;
 }
 
 export const MainPortal: React.FC<MainPortalProps> = ({
@@ -33,6 +35,7 @@ export const MainPortal: React.FC<MainPortalProps> = ({
   onOpenCalculator,
   onOpenPricing,
   onOpenGrowthSuite,
+  onOpenBlindspots,
 }) => {
   const [category, setCategory] = useState('網頁自動化與資料匯入');
   const [contact, setContact] = useState('');
@@ -83,10 +86,13 @@ export const MainPortal: React.FC<MainPortalProps> = ({
                 <Flame className="w-3.5 h-3.5" />
                 <span>首次衝動價 NT$ 149 / 首月 ($4.99 USD)</span>
               </span>
-              <span className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 text-xs font-bold border border-emerald-200">
-                <Gift className="w-3 h-3 text-emerald-600" />
-                <span>30% 裂變分潤獎勵</span>
-              </span>
+              <button
+                onClick={onOpenBlindspots}
+                className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-full bg-amber-100 hover:bg-amber-200 text-amber-900 text-xs font-bold border border-amber-300 transition"
+              >
+                <AlertTriangle className="w-3.5 h-3.5 text-amber-700" />
+                <span>4大營運盲點已修補</span>
+              </button>
             </div>
 
             <h1 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight leading-tight">
@@ -109,18 +115,19 @@ export const MainPortal: React.FC<MainPortalProps> = ({
               </button>
 
               <button
-                onClick={onOpenGrowthSuite}
-                className="px-5 py-3 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs sm:text-sm transition flex items-center space-x-1.5"
+                onClick={onOpenBlindspots}
+                className="px-4 py-3 rounded-2xl bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 font-bold text-xs sm:text-sm transition flex items-center space-x-1.5"
               >
-                <Gift className="w-4 h-4 text-amber-400" />
-                <span>獲客裂變加速庫</span>
+                <AlertTriangle className="w-4 h-4 text-amber-600" />
+                <span>查看盲區修復清單</span>
               </button>
 
               <button
-                onClick={onOpenCalculator}
-                className="px-4 py-3 rounded-2xl bg-slate-100 hover:bg-slate-200/80 text-slate-800 font-bold text-xs sm:text-sm transition"
+                onClick={onOpenGrowthSuite}
+                className="px-4 py-3 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs sm:text-sm transition flex items-center space-x-1.5"
               >
-                省工時試算
+                <Gift className="w-4 h-4 text-amber-400" />
+                <span>獲客裂變加速庫</span>
               </button>
             </div>
 
@@ -177,7 +184,39 @@ export const MainPortal: React.FC<MainPortalProps> = ({
         </div>
       </div>
 
-      {/* 2. Core Three Value Pillars */}
+      {/* 2. 4 大盲點修復橫幅預覽 (直接對應截圖內容) */}
+      <div 
+        onClick={onOpenBlindspots}
+        className="bg-amber-50/70 hover:bg-amber-50 border-2 border-amber-300 rounded-3xl p-6 transition cursor-pointer shadow-sm group"
+      >
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="flex items-center space-x-3.5">
+            <div className="w-10 h-10 rounded-2xl bg-amber-500 text-slate-950 flex items-center justify-center font-bold shadow-md shrink-0">
+              <AlertTriangle className="w-5 h-5" />
+            </div>
+            <div>
+              <div className="flex items-center space-x-2">
+                <h3 className="font-extrabold text-slate-900 text-base">
+                  企劃書上線營運必修補之關鍵 4 大盲點 (盲區修復清單)
+                </h3>
+                <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold border border-emerald-300">
+                  已全部補強
+                </span>
+              </div>
+              <p className="text-xs text-slate-600 mt-0.5">
+                1. Groq 429 降級熔斷 ➔ 2. 單一用戶 Session 隔離 ➔ 3. Sitemaps 三軌收錄 ➔ 4. 30% 裂變池防女巫作弊
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center space-x-1.5 text-xs font-bold text-amber-800 group-hover:translate-x-1 transition">
+            <span>開啟演練與代碼</span>
+            <ArrowRight className="w-4 h-4" />
+          </div>
+        </div>
+      </div>
+
+      {/* 3. Core Three Value Pillars */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-white/80 border border-slate-200/80 rounded-2xl p-6 shadow-sm hover:shadow-md transition">
           <div className="w-10 h-10 rounded-xl bg-cyan-50 text-cyan-700 flex items-center justify-center font-bold mb-3 border border-cyan-100">
@@ -210,7 +249,7 @@ export const MainPortal: React.FC<MainPortalProps> = ({
         </div>
       </div>
 
-      {/* 3. The Dedicated Application Form & Transparent Verification Board */}
+      {/* 4. The Dedicated Application Form & Transparent Verification Board */}
       <div id="intent-form" className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Left: Clean Application Form */}
         <div className="lg:col-span-6 bg-white/90 border border-slate-200/80 rounded-3xl p-6 sm:p-8 shadow-lg">
